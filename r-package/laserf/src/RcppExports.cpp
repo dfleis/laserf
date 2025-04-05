@@ -246,6 +246,64 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// subspace_forest_train
+Rcpp::List subspace_forest_train(const Rcpp::NumericMatrix& train_matrix, const std::vector<size_t>& outcome_index, size_t sample_weight_index, bool use_sample_weights, unsigned int mtry, unsigned int num_trees, unsigned int min_node_size, double sample_fraction, bool honesty, double honesty_fraction, bool honesty_prune_leaves, double alpha, double imbalance_penalty, std::vector<size_t>& clusters, unsigned int samples_per_cluster, bool compute_oob_predictions, unsigned int num_threads, unsigned int seed, bool legacy_seed);
+RcppExport SEXP _laserf_subspace_forest_train(SEXP train_matrixSEXP, SEXP outcome_indexSEXP, SEXP sample_weight_indexSEXP, SEXP use_sample_weightsSEXP, SEXP mtrySEXP, SEXP num_treesSEXP, SEXP min_node_sizeSEXP, SEXP sample_fractionSEXP, SEXP honestySEXP, SEXP honesty_fractionSEXP, SEXP honesty_prune_leavesSEXP, SEXP alphaSEXP, SEXP imbalance_penaltySEXP, SEXP clustersSEXP, SEXP samples_per_clusterSEXP, SEXP compute_oob_predictionsSEXP, SEXP num_threadsSEXP, SEXP seedSEXP, SEXP legacy_seedSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type train_matrix(train_matrixSEXP);
+    Rcpp::traits::input_parameter< const std::vector<size_t>& >::type outcome_index(outcome_indexSEXP);
+    Rcpp::traits::input_parameter< size_t >::type sample_weight_index(sample_weight_indexSEXP);
+    Rcpp::traits::input_parameter< bool >::type use_sample_weights(use_sample_weightsSEXP);
+    Rcpp::traits::input_parameter< unsigned int >::type mtry(mtrySEXP);
+    Rcpp::traits::input_parameter< unsigned int >::type num_trees(num_treesSEXP);
+    Rcpp::traits::input_parameter< unsigned int >::type min_node_size(min_node_sizeSEXP);
+    Rcpp::traits::input_parameter< double >::type sample_fraction(sample_fractionSEXP);
+    Rcpp::traits::input_parameter< bool >::type honesty(honestySEXP);
+    Rcpp::traits::input_parameter< double >::type honesty_fraction(honesty_fractionSEXP);
+    Rcpp::traits::input_parameter< bool >::type honesty_prune_leaves(honesty_prune_leavesSEXP);
+    Rcpp::traits::input_parameter< double >::type alpha(alphaSEXP);
+    Rcpp::traits::input_parameter< double >::type imbalance_penalty(imbalance_penaltySEXP);
+    Rcpp::traits::input_parameter< std::vector<size_t>& >::type clusters(clustersSEXP);
+    Rcpp::traits::input_parameter< unsigned int >::type samples_per_cluster(samples_per_clusterSEXP);
+    Rcpp::traits::input_parameter< bool >::type compute_oob_predictions(compute_oob_predictionsSEXP);
+    Rcpp::traits::input_parameter< unsigned int >::type num_threads(num_threadsSEXP);
+    Rcpp::traits::input_parameter< unsigned int >::type seed(seedSEXP);
+    Rcpp::traits::input_parameter< bool >::type legacy_seed(legacy_seedSEXP);
+    rcpp_result_gen = Rcpp::wrap(subspace_forest_train(train_matrix, outcome_index, sample_weight_index, use_sample_weights, mtry, num_trees, min_node_size, sample_fraction, honesty, honesty_fraction, honesty_prune_leaves, alpha, imbalance_penalty, clusters, samples_per_cluster, compute_oob_predictions, num_threads, seed, legacy_seed));
+    return rcpp_result_gen;
+END_RCPP
+}
+// subspace_forest_predict
+Rcpp::List subspace_forest_predict(const Rcpp::List& forest_object, const Rcpp::NumericMatrix& train_matrix, const Rcpp::NumericMatrix& test_matrix, size_t num_outcomes, unsigned int num_threads);
+RcppExport SEXP _laserf_subspace_forest_predict(SEXP forest_objectSEXP, SEXP train_matrixSEXP, SEXP test_matrixSEXP, SEXP num_outcomesSEXP, SEXP num_threadsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::List& >::type forest_object(forest_objectSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type train_matrix(train_matrixSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type test_matrix(test_matrixSEXP);
+    Rcpp::traits::input_parameter< size_t >::type num_outcomes(num_outcomesSEXP);
+    Rcpp::traits::input_parameter< unsigned int >::type num_threads(num_threadsSEXP);
+    rcpp_result_gen = Rcpp::wrap(subspace_forest_predict(forest_object, train_matrix, test_matrix, num_outcomes, num_threads));
+    return rcpp_result_gen;
+END_RCPP
+}
+// subspace_forest_predict_oob
+Rcpp::List subspace_forest_predict_oob(const Rcpp::List& forest_object, const Rcpp::NumericMatrix& train_matrix, size_t num_outcomes, unsigned int num_threads);
+RcppExport SEXP _laserf_subspace_forest_predict_oob(SEXP forest_objectSEXP, SEXP train_matrixSEXP, SEXP num_outcomesSEXP, SEXP num_threadsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const Rcpp::List& >::type forest_object(forest_objectSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type train_matrix(train_matrixSEXP);
+    Rcpp::traits::input_parameter< size_t >::type num_outcomes(num_outcomesSEXP);
+    Rcpp::traits::input_parameter< unsigned int >::type num_threads(num_threadsSEXP);
+    rcpp_result_gen = Rcpp::wrap(subspace_forest_predict_oob(forest_object, train_matrix, num_outcomes, num_threads));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_laserf_compute_split_frequencies", (DL_FUNC) &_laserf_compute_split_frequencies, 2},
@@ -261,6 +319,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_laserf_regression_train", (DL_FUNC) &_laserf_regression_train, 20},
     {"_laserf_regression_predict", (DL_FUNC) &_laserf_regression_predict, 6},
     {"_laserf_regression_predict_oob", (DL_FUNC) &_laserf_regression_predict_oob, 5},
+    {"_laserf_subspace_forest_train", (DL_FUNC) &_laserf_subspace_forest_train, 19},
+    {"_laserf_subspace_forest_predict", (DL_FUNC) &_laserf_subspace_forest_predict, 5},
+    {"_laserf_subspace_forest_predict_oob", (DL_FUNC) &_laserf_subspace_forest_predict_oob, 4},
     {NULL, NULL, 0}
 };
 
