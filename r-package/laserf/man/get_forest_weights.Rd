@@ -19,7 +19,7 @@ automatically selects an appropriate amount.}
 }
 \value{
 A sparse matrix where each row represents a test sample, and each column is a sample in the
-        training data. The value at (i, j) gives the weight of training sample j for test sample i.
+training data. The value at (i, j) gives the weight of training sample j for test sample i.
 }
 \description{
 During normal prediction, these weights (named alpha in the GRF paper) are computed as an intermediate
@@ -28,16 +28,7 @@ could be potentially be used as the input to a different analysis.
 }
 \examples{
 \donttest{
-p <- 10
-n <- 100
-X <- matrix(2 * runif(n * p) - 1, n, p)
-Y <- (X[, 1] > 0) + 2 * rnorm(n)
-rrf <- regression_forest(X, Y, mtry = p)
-forest.weights.oob <- get_forest_weights(rrf)
-
-n.test <- 15
-X.test <- matrix(2 * runif(n.test * p) - 1, n.test, p)
-forest.weights <- get_forest_weights(rrf, X.test)
+# TODO
 }
 
 }

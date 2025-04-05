@@ -33,16 +33,16 @@ lm_forest(
 \arguments{
 \item{X}{The covariates used in the regression.}
 
-\item{Y}{The outcome (must be a numeric vector or matrix [one column per outcome] with no NAs).
+\item{Y}{The outcome (must be a numeric vector or matrix \link{one column per outcome} with no NAs).
 Multiple outcomes should be on the same scale.}
 
 \item{W}{The conditional regressors (must be a vector or matrix with no NAs).}
 
-\item{Y.hat}{Estimates of the conditional means E[Y | Xi].
+\item{Y.hat}{Estimates of the conditional means E\link{Y | Xi}.
 If Y.hat = NULL, these are estimated using
 a separate multi-task regression forest. Default is NULL.}
 
-\item{W.hat}{Estimates of the conditional means E[Wk | Xi].
+\item{W.hat}{Estimates of the conditional means E\link{Wk | Xi}.
 If W.hat = NULL, these are estimated using
 a separate multi-task regression forest. Default is NULL.}
 
@@ -56,7 +56,7 @@ Default is NULL.}
 
 \item{gradient.weights}{Weights given to each coefficient h_k(x) when targeting heterogeneity
 in the estimates. These enter the GRF algorithm through the split criterion \eqn{\Delta}:
-the k-th coordinate of this is \eqn{\Delta_k} * gradient.weights[k].
+the k-th coordinate of this is \eqn{\Delta_k} * gradient.weights\link{k}.
 If NULL, each coefficient is given the same weight.
 Default is NULL.}
 
@@ -171,8 +171,8 @@ points(X[subset, 1], tau[subset], col = "red", cex = 0.1)
 }
 \references{
 Athey, Susan, Julie Tibshirani, and Stefan Wager. "Generalized Random Forests".
- Annals of Statistics, 47(2), 2019.
+Annals of Statistics, 47(2), 2019.
 
 Zeileis, Achim, Torsten Hothorn, and Kurt Hornik. "Model-based Recursive Partitioning."
- Journal of Computational and Graphical Statistics 17(2), 2008.
+Journal of Computational and Graphical Statistics 17(2), 2008.
 }

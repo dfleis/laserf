@@ -12,6 +12,7 @@ library(Rcpp)
 library(devtools)
 #library(testthat)
 library(roxygen2)
+library(bench)
 
 package.name <- "laserf"
 

@@ -52,7 +52,6 @@ laserf <- function(X, Y,
                    num.threads = NULL,
                    seed = runif(1, 0, .Machine$integer.max),
                    .env = NULL) {
-  
   has.missing.values <- validate_X(X, allow.na = FALSE) # << TODO: TRUE or FALSE? >>
   validate_sample_weights(sample.weights, X)            # << TODO: How to think about weights and clusters >>
   Y <- validate_observations(Y, X, allow.matrix = TRUE) # << TODO: The Y data must be a matrix (n-by-p) >>

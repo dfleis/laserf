@@ -23,10 +23,10 @@ automatically selects an appropriate amount.}
 \item{...}{Additional arguments (currently ignored).}
 }
 \value{
-A list containing `predictions`: a matrix of predictions for each outcome.
+A list containing \code{predictions}: a matrix of predictions for each outcome.
 }
 \description{
-Gets estimates of E[Y_i | X = x] using a trained multi regression forest.
+Gets estimates of E\link{Y_i | X = x} using a trained multi regression forest.
 }
 \examples{
 \donttest{

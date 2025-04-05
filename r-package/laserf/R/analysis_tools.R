@@ -20,16 +20,7 @@
 #'
 #' @examples
 #' \donttest{
-#' # Train a quantile forest.
-#' n <- 50
-#' p <- 10
-#' X <- matrix(rnorm(n * p), n, p)
-#' Y <- X[, 1] * rnorm(n)
-#' q.forest <- quantile_forest(X, Y, quantiles = c(0.1, 0.5, 0.9))
-#'
-#' # Examine a particular tree.
-#' q.tree <- get_tree(q.forest, 3)
-#' q.tree$nodes
+#' # TODO
 #' }
 #'
 #' @export
@@ -114,15 +105,7 @@ get_tree <- function(forest, index) {
 #'
 #' @examples
 #' \donttest{
-#' # Train a quantile forest.
-#' n <- 250
-#' p <- 10
-#' X <- matrix(rnorm(n * p), n, p)
-#' Y <- X[, 1] * rnorm(n)
-#' q.forest <- quantile_forest(X, Y, quantiles = c(0.1, 0.5, 0.9))
-#'
-#' # Calculate the split frequencies for this forest.
-#' split_frequencies(q.forest)
+#' # TODO
 #' }
 #'
 #' @export
@@ -144,15 +127,7 @@ split_frequencies <- function(forest, max.depth = 4) {
 #'
 #' @examples
 #' \donttest{
-#' # Train a quantile forest.
-#' n <- 250
-#' p <- 10
-#' X <- matrix(rnorm(n * p), n, p)
-#' Y <- X[, 1] * rnorm(n)
-#' q.forest <- quantile_forest(X, Y, quantiles = c(0.1, 0.5, 0.9))
-#'
-#' # Calculate the 'importance' of each feature.
-#' variable_importance(q.forest)
+#' # TODO
 #' }
 #'
 #' @export
@@ -181,16 +156,7 @@ variable_importance <- function(forest, decay.exponent = 2, max.depth = 4) {
 #'
 #' @examples
 #' \donttest{
-#' p <- 10
-#' n <- 100
-#' X <- matrix(2 * runif(n * p) - 1, n, p)
-#' Y <- (X[, 1] > 0) + 2 * rnorm(n)
-#' rrf <- regression_forest(X, Y, mtry = p)
-#' forest.weights.oob <- get_forest_weights(rrf)
-#'
-#' n.test <- 15
-#' X.test <- matrix(2 * runif(n.test * p) - 1, n.test, p)
-#' forest.weights <- get_forest_weights(rrf, X.test)
+#' # TODO
 #' }
 #'
 #' @export
@@ -227,19 +193,7 @@ get_forest_weights <- function(forest, newdata = NULL, num.threads = NULL) {
 #'
 #' @examples
 #' \donttest{
-#' p <- 10
-#' n <- 100
-#' X <- matrix(2 * runif(n * p) - 1, n, p)
-#' Y <- (X[, 1] > 0) + 2 * rnorm(n)
-#' r.forest <- regression_forest(X, Y, num.tree = 50)
-#'
-#' n.test <- 5
-#' X.test <- matrix(2 * runif(n.test * p) - 1, n.test, p)
-#' tree <- get_tree(r.forest, 1)
-#' # Get a vector of node numbers for each sample.
-#' get_leaf_node(tree, X.test)
-#' # Get a list of samples per node.
-#' get_leaf_node(tree, X.test, node.id = FALSE)
+#' # TODO
 #' }
 #'
 #' @export

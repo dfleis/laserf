@@ -256,7 +256,7 @@ predict.regression_forest <- function(object, newdata = NULL,
                estimate.variance = estimate.variance)
 
   if (!is.null(newdata)) {
-    validate_newdata(newdata, X, allow.na = allow.na)
+    validate_newdata(newdata, X, allow.na = TRUE)
     test.data <- create_test_matrices(newdata)
     ret <- do.call.rcpp(regression_predict, c(train.data, test.data, args))
   } else {

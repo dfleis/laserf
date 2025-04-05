@@ -90,7 +90,7 @@ be at least 2. Default is 2.}
 \item{tune.parameters}{A vector of parameter names to tune.
 If "all": all tunable parameters are tuned by cross-validation. The following parameters are
 tunable: ("sample.fraction", "mtry", "min.node.size", "honesty.fraction",
- "honesty.prune.leaves", "alpha", "imbalance.penalty"). If honesty is FALSE the honesty.* parameters are not tuned.
+"honesty.prune.leaves", "alpha", "imbalance.penalty"). If honesty is FALSE the honesty.* parameters are not tuned.
 Default is "none" (no parameters are tuned).}
 
 \item{tune.num.trees}{The number of trees in each 'mini forest' used to fit the tuning model. Default is 50.}
@@ -109,11 +109,11 @@ to the maximum hardware concurrency.}
 }
 \value{
 A trained regression forest object. If tune.parameters is enabled,
- then tuning information will be included through the `tuning.output` attribute.
+then tuning information will be included through the \code{tuning.output} attribute.
 }
 \description{
 Trains a regression forest that can be used to estimate
-the conditional mean function mu(x) = E[Y | X = x]
+the conditional mean function mu(x) = E\link{Y | X = x}
 }
 \examples{
 \donttest{

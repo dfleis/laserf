@@ -20,15 +20,7 @@ Calculate which features the forest split on at each depth.
 }
 \examples{
 \donttest{
-# Train a quantile forest.
-n <- 250
-p <- 10
-X <- matrix(rnorm(n * p), n, p)
-Y <- X[, 1] * rnorm(n)
-q.forest <- quantile_forest(X, Y, quantiles = c(0.1, 0.5, 0.9))
-
-# Calculate the split frequencies for this forest.
-split_frequencies(q.forest)
+# TODO
 }
 
 }

@@ -40,9 +40,9 @@ laserf(
 
 \item{sample.fraction}{TODO...}
 
-\item{mtry}{TODO... <<HIGH PRIORITY>>}
+\item{mtry}{TODO... <\if{html}{\out{<HIGH PRIORITY>}}>}
 
-\item{min.node.size}{TODO... <<HIGH PRIORITY>>}
+\item{min.node.size}{TODO... <\if{html}{\out{<HIGH PRIORITY>}}>}
 
 \item{honesty}{TODO...}
 
@@ -50,9 +50,9 @@ laserf(
 
 \item{honesty.prune.leaves}{TODO...}
 
-\item{alpha}{TODO... <<HIGH PRIORITY>>}
+\item{alpha}{TODO... <\if{html}{\out{<HIGH PRIORITY>}}>}
 
-\item{imbalance.penalty}{TODO... <<HIGH PRIORITY>>}
+\item{imbalance.penalty}{TODO... <\if{html}{\out{<HIGH PRIORITY>}}>}
 
 \item{compute.oob.predictions}{TODO...}
 
@@ -64,12 +64,14 @@ laserf(
 }
 \description{
 TODO:
- * Which input parameters are still relevant.
- * How to think about `sample.weights` and `clusters` parameters.
- * How do deal with `NA` data.
- * Clean up validation of primary covariates `Y` (n by p dimensional)
- * Clean up validation of auxiliary covariates `X` (n by d dimension)
- *
+\itemize{
+\item Which input parameters are still relevant.
+\item How to think about \code{sample.weights} and \code{clusters} parameters.
+\item How do deal with \code{NA} data.
+\item Clean up validation of primary covariates \code{Y} (n by p dimensional)
+\item Clean up validation of auxiliary covariates \code{X} (n by d dimension)
+\item 
+}
 }
 \examples{
 \donttest{

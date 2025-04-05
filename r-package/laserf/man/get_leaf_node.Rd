@@ -7,7 +7,7 @@
 get_leaf_node(tree, newdata, node.id = TRUE)
 }
 \arguments{
-\item{tree}{A LASERF tree object (retrieved by `get_tree`).}
+\item{tree}{A LASERF tree object (retrieved by \code{get_tree}).}
 
 \item{newdata}{Points at which leaf predictions should be made.}
 
@@ -25,19 +25,7 @@ to this ordering. To get kernel weights based on leaf membership, see the functi
 }
 \examples{
 \donttest{
-p <- 10
-n <- 100
-X <- matrix(2 * runif(n * p) - 1, n, p)
-Y <- (X[, 1] > 0) + 2 * rnorm(n)
-r.forest <- regression_forest(X, Y, num.tree = 50)
-
-n.test <- 5
-X.test <- matrix(2 * runif(n.test * p) - 1, n.test, p)
-tree <- get_tree(r.forest, 1)
-# Get a vector of node numbers for each sample.
-get_leaf_node(tree, X.test)
-# Get a list of samples per node.
-get_leaf_node(tree, X.test, node.id = FALSE)
+# TODO
 }
 
 }

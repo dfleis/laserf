@@ -3,20 +3,17 @@ Title: Locally Adaptive Subspace Estimation (with) Random Forests
 Version: 0.0.0.9000
 Authors@R: 
     person("David", "Fleischer", , "david.p.fleischer@gmail.com", role = c("cre", "aut"))
-Maintainer@R: David Fleischer <david.p.fleischer@gmail.com> [cre, aut]
-Description: 
-    Some description TODO...
+Description: What the package does (one paragraph).
 Depends:
     R (>= 3.5.0)
 License: GPL-3
 LinkingTo: Rcpp, RcppEigen
 Imports:
     DiceKriging,
-    lmtest,
     Matrix,
     methods,
-    Rcpp (>= 0.12.15),
-    sandwich (>= 2.4-0)
+    Rcpp (>= 0.12.15)
+Maintainer@R: David Fleischer <david.p.fleischer@gmail.com> [cre, aut]
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Suggests:

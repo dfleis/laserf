@@ -90,7 +90,7 @@ A trained multi regression forest object.
 }
 \description{
 Trains a regression forest that can be used to estimate
-the conditional mean functions mu_i(x) = E[Y_i | X = x]
+the conditional mean functions mu_i(x) = E\link{Y_i | X = x}
 }
 \examples{
 \donttest{

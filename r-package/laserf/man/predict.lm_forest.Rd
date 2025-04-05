@@ -34,10 +34,10 @@ only supported for univariate outcomes Y.}
 \item{...}{Additional arguments (currently ignored).}
 }
 \value{
-A list with elements `predictions`: a 3d array of dimension [num.samples, K, M] with
+A list with elements \code{predictions}: a 3d array of dimension \link{num.samples, K, M} with
 predictions for regressor W, for each outcome 1,..,M (singleton dimensions in this array can
-be dropped by passing the `drop` argument to `[`, or with the shorthand `$predictions[,,]`),
- and optionally `variance.estimates`: a matrix with K columns with variance estimates.
+be dropped by passing the \code{drop} argument to \code{[}, or with the shorthand \verb{$predictions[,,]}),
+and optionally \code{variance.estimates}: a matrix with K columns with variance estimates.
 }
 \description{
 Gets estimates of \eqn{h_k(x)}, k = 1..K in the conditionally linear model
