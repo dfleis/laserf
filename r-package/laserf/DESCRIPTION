@@ -17,6 +17,7 @@ Imports:
     methods,
     Rcpp (>= 0.12.15),
     sandwich (>= 2.4-0)
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Suggests:
     DiagrammeR,
