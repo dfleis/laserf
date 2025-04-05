@@ -67,8 +67,8 @@ TODO:
  * Which input parameters are still relevant.
  * How to think about `sample.weights` and `clusters` parameters.
  * How do deal with `NA` data.
- * Clean up validation of primary covariates `Y` ($$n\times p$$-dimensional).
- * Clean up validation of auxiliary covariates `X` ($$n\times d$$-dimensional).
+ * Clean up validation of primary covariates `Y` (n by p dimensional)
+ * Clean up validation of auxiliary covariates `X` (n by d dimension)
  *
 }
 \examples{
