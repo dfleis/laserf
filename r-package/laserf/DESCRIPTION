@@ -1,0 +1,27 @@
+Package: laserf
+Title: Locally Adaptive Subspace Estimation (with) Random Forests
+Version: 0.0.0.9000
+Authors@R: 
+    person("David", "Fleischer", , "david.p.fleischer@gmail.com", role = c("cre", "aut"))
+Maintainer@R: David Fleischer <david.p.fleischer@gmail.com> [cre, aut]
+Description: 
+    Some description TODO...
+Depends:
+    R (>= 3.5.0)
+License: GPL-3
+LinkingTo: Rcpp, RcppEigen
+Imports:
+    DiceKriging,
+    lmtest,
+    Matrix,
+    methods,
+    Rcpp (>= 0.12.15),
+    sandwich (>= 2.4-0)
+RoxygenNote: 7.3.2
+Suggests:
+    DiagrammeR,
+    MASS,
+    rdd,
+    testthat (>= 3.0.4)
+SystemRequirements: GNU make
+Encoding: UTF-8
