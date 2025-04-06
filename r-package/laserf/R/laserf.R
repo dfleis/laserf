@@ -17,13 +17,13 @@
 #' @param clusters TODO...
 #' @param equalize.cluster.weights TODO...
 #' @param sample.fraction TODO...
-#' @param mtry TODO... <<HIGH PRIORITY>>
-#' @param min.node.size TODO... <<HIGH PRIORITY>>
+#' @param mtry TODO... HIGH PRIORITY
+#' @param min.node.size TODO... HIGH PRIORITY
 #' @param honesty TODO...
 #' @param honesty.fraction TODO...
 #' @param honesty.prune.leaves TODO...
-#' @param alpha TODO... <<HIGH PRIORITY>>
-#' @param imbalance.penalty TODO... <<HIGH PRIORITY>>
+#' @param alpha TODO... HIGH PRIORITY
+#' @param imbalance.penalty TODO... HIGH PRIORITY
 #' @param compute.oob.predictions TODO...
 #' @param num.threads TODO...
 #' @param seed TODO...
@@ -36,13 +36,13 @@
 #'
 #' @export
 laserf <- function(X, Y,
-                   num.trees = 2000, # << TODO: HIGH PRIORITY >>
+                   num.trees = 2000, # TODO: HIGH PRIORITY
                    sample.weights = NULL,
                    clusters = NULL,
                    equalize.cluster.weights = FALSE,
                    sample.fraction = 0.5,
                    mtry = min(ceiling(sqrt(ncol(X)) + 20), ncol(X)), 
-                   min.node.size = 5, # << TODO: HIGH PRIORITY >>
+                   min.node.size = 5, # TODO: HIGH PRIORITY
                    honesty = TRUE,
                    honesty.fraction = 0.5,
                    honesty.prune.leaves = TRUE,
@@ -52,9 +52,9 @@ laserf <- function(X, Y,
                    num.threads = NULL,
                    seed = runif(1, 0, .Machine$integer.max),
                    .env = NULL) {
-  has.missing.values <- validate_X(X, allow.na = FALSE) # << TODO: TRUE or FALSE? >>
-  validate_sample_weights(sample.weights, X)            # << TODO: How to think about weights and clusters >>
-  Y <- validate_observations(Y, X, allow.matrix = TRUE) # << TODO: The Y data must be a matrix (n-by-p) >>
+  has.missing.values <- validate_X(X, allow.na = FALSE) # TODO: TRUE or FALSE?
+  validate_sample_weights(sample.weights, X)            # TODO: How to think about weights and clusters
+  Y <- validate_observations(Y, X, allow.matrix = TRUE) # TODO: The Y data must be a matrix (n-by-p)
   clusters <- validate_clusters(clusters, X)
   samples.per.cluster <- validate_equalize_cluster_weights(equalize.cluster.weights, clusters, sample.weights)
   num.threads <- validate_num_threads(num.threads)
