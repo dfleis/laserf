@@ -40,9 +40,9 @@ laserf(
 
 \item{sample.fraction}{TODO...}
 
-\item{mtry}{TODO... <\if{html}{\out{<HIGH PRIORITY>}}>}
+\item{mtry}{TODO... HIGH PRIORITY}
 
-\item{min.node.size}{TODO... <\if{html}{\out{<HIGH PRIORITY>}}>}
+\item{min.node.size}{TODO... HIGH PRIORITY}
 
 \item{honesty}{TODO...}
 
@@ -50,9 +50,9 @@ laserf(
 
 \item{honesty.prune.leaves}{TODO...}
 
-\item{alpha}{TODO... <\if{html}{\out{<HIGH PRIORITY>}}>}
+\item{alpha}{TODO... HIGH PRIORITY}
 
-\item{imbalance.penalty}{TODO... <\if{html}{\out{<HIGH PRIORITY>}}>}
+\item{imbalance.penalty}{TODO... HIGH PRIORITY}
 
 \item{compute.oob.predictions}{TODO...}
 
