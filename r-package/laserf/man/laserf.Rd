@@ -7,6 +7,7 @@
 laserf(
   X,
   Y,
+  target.rank,
   num.trees = 2000,
   sample.weights = NULL,
   clusters = NULL,
@@ -26,9 +27,11 @@ laserf(
 )
 }
 \arguments{
-\item{X}{TODO... auxiliary covariates}
+\item{X}{TODO... auxiliary covariates (n by d)}
 
-\item{Y}{TODO... primary covariates}
+\item{Y}{TODO... primary covariates (n by p)}
+
+\item{target.rank}{TODO... target subspace dimension (rank r)}
 
 \item{num.trees}{TODO...}
 
@@ -65,12 +68,13 @@ laserf(
 \description{
 TODO:
 \itemize{
-\item Which input parameters are still relevant.
-\item How to think about \code{sample.weights} and \code{clusters} parameters.
-\item How do deal with \code{NA} data.
-\item Clean up validation of primary covariates \code{Y} (n by p dimensional)
-\item Clean up validation of auxiliary covariates \code{X} (n by d dimension)
-\item 
+\item Which input parameters are still relevant?
+\item How to think about \code{sample.weights} and \code{clusters} parameters?
+\item How do deal with \code{NA} data?
+\item Clean up validation of primary covariates \code{Y} (n by p dimensional).
+\item Clean up validation of auxiliary covariates \code{X} (n by d dimension).
+\item \code{target.rank} (rank r). Would be nice for this to be optional like in \code{prcomp} and \code{princomp}.
+\item \code{target.rank} (rank r). Can we allow the option to tune r similar to the ridge penalty parameter in \code{grf::ll_regression_forest}?
 }
 }
 \examples{

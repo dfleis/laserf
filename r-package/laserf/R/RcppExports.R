@@ -53,8 +53,8 @@ regression_predict_oob <- function(forest_object, train_matrix, outcome_index, n
     .Call('_laserf_regression_predict_oob', PACKAGE = 'laserf', forest_object, train_matrix, outcome_index, num_threads, estimate_variance)
 }
 
-subspace_forest_train <- function(train_matrix, outcome_index, sample_weight_index, use_sample_weights, mtry, num_trees, min_node_size, sample_fraction, honesty, honesty_fraction, honesty_prune_leaves, alpha, imbalance_penalty, clusters, samples_per_cluster, compute_oob_predictions, num_threads, seed, legacy_seed) {
-    .Call('_laserf_subspace_forest_train', PACKAGE = 'laserf', train_matrix, outcome_index, sample_weight_index, use_sample_weights, mtry, num_trees, min_node_size, sample_fraction, honesty, honesty_fraction, honesty_prune_leaves, alpha, imbalance_penalty, clusters, samples_per_cluster, compute_oob_predictions, num_threads, seed, legacy_seed)
+subspace_forest_train <- function(train_matrix, outcome_index, target_rank, sample_weight_index, use_sample_weights, mtry, num_trees, min_node_size, sample_fraction, honesty, honesty_fraction, honesty_prune_leaves, alpha, imbalance_penalty, clusters, samples_per_cluster, compute_oob_predictions, num_threads, seed, legacy_seed) {
+    .Call('_laserf_subspace_forest_train', PACKAGE = 'laserf', train_matrix, outcome_index, target_rank, sample_weight_index, use_sample_weights, mtry, num_trees, min_node_size, sample_fraction, honesty, honesty_fraction, honesty_prune_leaves, alpha, imbalance_penalty, clusters, samples_per_cluster, compute_oob_predictions, num_threads, seed, legacy_seed)
 }
 
 subspace_forest_predict <- function(forest_object, train_matrix, test_matrix, num_outcomes, num_threads) {

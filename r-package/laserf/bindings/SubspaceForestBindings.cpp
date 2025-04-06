@@ -30,6 +30,7 @@ using namespace grf;
 // [[Rcpp::export]]
 Rcpp::List subspace_forest_train(const Rcpp::NumericMatrix& train_matrix,
                                  const std::vector<size_t>& outcome_index,
+                                 unsigned int target_rank,
                                  size_t sample_weight_index,
                                  bool use_sample_weights,
                                  unsigned int mtry,
@@ -47,6 +48,8 @@ Rcpp::List subspace_forest_train(const Rcpp::NumericMatrix& train_matrix,
                                  unsigned int num_threads,
                                  unsigned int seed,
                                  bool legacy_seed) {
+  //Rcpp::Rcout << "target_rank: " << target_rank << "\n";
+  
   Data data = RcppUtilities::convert_data(train_matrix);
   data.set_outcome_index(outcome_index);
   if (use_sample_weights) {

@@ -3,6 +3,7 @@
 S3method(predict,lm_forest)
 S3method(predict,multi_regression_forest)
 S3method(predict,regression_forest)
+S3method(print,laserf)
 export(get_forest_weights)
 export(get_leaf_node)
 export(get_tree)

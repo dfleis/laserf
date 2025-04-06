@@ -1,17 +1,20 @@
 #' Locally Adaptive Subspace Estimation Random Forest
 #' 
 #' TODO:
-#'  * Which input parameters are still relevant.
-#'  * How to think about `sample.weights` and `clusters` parameters.
-#'  * How do deal with `NA` data.
-#'  * Clean up validation of primary covariates `Y` (n by p dimensional)
-#'  * Clean up validation of auxiliary covariates `X` (n by d dimension)
-#'  *
+#'  * Which input parameters are still relevant?
+#'  * How to think about `sample.weights` and `clusters` parameters?
+#'  * How do deal with `NA` data?
+#'  * Clean up validation of primary covariates `Y` (n by p dimensional).
+#'  * Clean up validation of auxiliary covariates `X` (n by d dimension).
+#'  * `target.rank` (rank r). Would be nice for this to be optional like in `prcomp` and `princomp`.
+#'  * `target.rank` (rank r). Can we allow the option to tune r similar to the ridge penalty parameter in `grf::ll_regression_forest`?
+#'  * `subspace_forest_train` C++ implementation
+#'  * predict.subspace_forest S3 method (via `subspace_forest_predict` and `subspace_forest_predict_oob`)
 #' 
 #' 
-#' 
-#' @param X TODO... auxiliary covariates
-#' @param Y TODO... primary covariates
+#' @param X TODO... auxiliary covariates (n by d)
+#' @param Y TODO... primary covariates (n by p)
+#' @param target.rank TODO... target subspace dimension (rank r) 
 #' @param num.trees TODO...
 #' @param sample.weights TODO...
 #' @param clusters TODO...
@@ -35,7 +38,7 @@
 #' }
 #'
 #' @export
-laserf <- function(X, Y,
+laserf <- function(X, Y, target.rank,  
                    num.trees = 2000, # TODO: HIGH PRIORITY
                    sample.weights = NULL,
                    clusters = NULL,
@@ -59,8 +62,11 @@ laserf <- function(X, Y,
   samples.per.cluster <- validate_equalize_cluster_weights(equalize.cluster.weights, clusters, sample.weights)
   num.threads <- validate_num_threads(num.threads)
   
+  target.rank <- validate_target_rank(target.rank)
+  
   data <- create_train_matrices(X, outcome = Y, sample.weights = sample.weights)
-  args <- list(num.trees = num.trees,
+  args <- list(target.rank = target.rank,
+               num.trees = num.trees,
                clusters = clusters,
                samples.per.cluster = samples.per.cluster,
                sample.fraction = sample.fraction,
@@ -76,7 +82,7 @@ laserf <- function(X, Y,
                seed = seed,
                legacy.seed = get_legacy_seed())
   
-  forest <- do.call.rcpp(multi_regression_train, c(data, args))
+  forest <- do.call.rcpp(subspace_forest_train, c(data, args))
   class(forest) <- c("subspace_forest", "laserf")
   forest[["seed"]] <- seed
   forest[["num.threads"]] <- num.threads
@@ -86,7 +92,12 @@ laserf <- function(X, Y,
   forest[["clusters"]] <- clusters
   forest[["equalize.cluster.weights"]] <- equalize.cluster.weights
   forest[["has.missing.values"]] <- has.missing.values
+  forest[["target.rank"]] <- target.rank
   
+  
+  # TODO
+  # TODO For debugging during development
+  # TODO
   if (is.environment(.env)) {
     .env$args <- args
     .env$data <- data
