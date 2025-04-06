@@ -32,7 +32,8 @@ devtools::check() # Catch errors before build
 devtools::clean_dll()
 devtools::build()
 
-devtools::install() # If we want to test an actual installation
+# devtools::install() # If we want to test an actual installation
 
 #----- (Optional) Test build from github
 # devtools::install_github("dfleis/laserf", subdir = "r-package/laserf")
+# devtools::install_github("dfleis/laserf", subdir = "r-package/laserf", ref = "dev")
