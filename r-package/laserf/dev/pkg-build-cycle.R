@@ -35,5 +35,13 @@ devtools::build()
 # devtools::install() # If we want to test an actual installation
 
 #----- (Optional) Test build from github
-# devtools::install_github("dfleis/laserf", subdir = "r-package/laserf")
-# devtools::install_github("dfleis/laserf", subdir = "r-package/laserf", ref = "dev")
+# bench::system_time(
+#   devtools::install_github("dfleis/laserf", subdir = "r-package/laserf")
+# )
+# bench::system_time(
+#   devtools::install_github("dfleis/laserf", subdir = "r-package/laserf", ref = "dev")
+# )
+
+
+
+
