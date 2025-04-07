@@ -96,7 +96,7 @@ laserf <- function(X, Y, split.rank,
   
   if (is.environment(.env)) {
     # TODO Drop this in the final version
-    message("DEVELOPMENT: `laserf` args, data, and forest saved in user-supplied environment.")
+    message("DEVELOPMENT: Saving `laserf::laserf` args, data, and forest in user-supplied environment.")
     .env$args <- args
     .env$data <- data
     .env$forest <- forest
