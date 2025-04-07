@@ -128,13 +128,13 @@ validate_sample_weights <- function(sample.weights, X) {
   }
 }
 
-validate_target_rank <- function(target.rank) {
-  if (!isTRUE(target.rank >= 1)) { # using isTRUE handles cases like NULL, NA, NA_real_
-    stop("target.rank must be a positive integer >= 1.")
-  } else if (isFALSE(is.numeric(target.rank)) || length(target.rank) != 1) {
-    stop("target.rank must be a positive integer.")
+validate_rank <- function(r) {
+  if (!isTRUE(r >= 1)) { # using isTRUE handles cases like NULL, NA, NA_real_
+    stop("Subspace rank must be a positive integer >= 1.")
+  } else if (isFALSE(is.numeric(r)) || length(r) != 1) {
+    stop("Subspace rank must be a positive integer.")
   }
-  as.integer(target.rank) # rounds down (up to a precision of .Machine$double.eps)
+  as.integer(r) # rounds down (up to a precision of .Machine$double.eps)
 }
 
 # Indices are offset by 1 for C++.

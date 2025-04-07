@@ -30,7 +30,7 @@ using namespace grf;
 // [[Rcpp::export]]
 Rcpp::List subspace_forest_train(const Rcpp::NumericMatrix& train_matrix,
                                  const std::vector<size_t>& outcome_index,
-                                 unsigned int target_rank,
+                                 size_t split_rank,
                                  size_t sample_weight_index,
                                  bool use_sample_weights,
                                  unsigned int mtry,
@@ -48,8 +48,6 @@ Rcpp::List subspace_forest_train(const Rcpp::NumericMatrix& train_matrix,
                                  unsigned int num_threads,
                                  unsigned int seed,
                                  bool legacy_seed) {
-  //Rcpp::Rcout << "target_rank: " << target_rank << "\n";
-  
   Data data = RcppUtilities::convert_data(train_matrix);
   data.set_outcome_index(outcome_index);
   if (use_sample_weights) {
@@ -59,16 +57,44 @@ Rcpp::List subspace_forest_train(const Rcpp::NumericMatrix& train_matrix,
   size_t ci_group_size = 1;
   ForestOptions options(num_trees, ci_group_size, sample_fraction, mtry, min_node_size, honesty,
       honesty_fraction, honesty_prune_leaves, alpha, imbalance_penalty, num_threads, seed, legacy_seed, clusters, samples_per_cluster);
-  ForestTrainer trainer = multi_regression_trainer(data.get_num_outcomes());
-  Forest forest = trainer.train(data, options);
 
-  std::vector<Prediction> predictions;
+  // NEW
+  // TODO Subspace forest pipeline 
+  // TODO Complete
+  Rcpp::Rcout << "SubspaceForestBindings: Initializing `ForestTrainer trainer = subspace_trainer(...)`\n";
+  ForestTrainer trainer = subspace_trainer(data.get_num_outcomes(), split_rank);
+  Rcpp::Rcout << "SubspaceForestBindings: Successfully initialized `trainer`\n";
+  
+  // Rcpp::Function sys_sleep("Sys.sleep");
+  // Rcpp::Rcout << "Sleep 1\n";
+  // sys_sleep(1);
+  Rcpp::Rcout << "SubspaceForestBindings: Training `Forest forest = trainer.train(...)`\n";
+  Forest forest = trainer.train(data, options);
+  Rcpp::Rcout << "SubspaceForestBindings: Successfully trained `forest`\n";
+  // std::vector<Prediction> predictions;
+  // if (compute_oob_predictions) {
+  //   ForestPredictor predictor = multi_regression_predictor(num_threads, data.get_num_outcomes());
+  //   //ForestPredictor predictor = multi_regression_predictor(num_threads, data.get_num_outcomes() * data.get_num_outcomes());
+  //   predictions = predictor.predict_oob(forest, data, false);
+  // }
+  //
+  // return RcppUtilities::create_forest_object(forest, predictions);
+  
+  
+  // OLD (multi_regression_trainer used as a template)
+  // TODO Multivariate response regression forest pipeline
+  // TODO Remove
+  Rcpp::Rcout << "SubspaceForestBindings: Running `multi_regression_forest` pipeline (TODO Remove)\n";
+  ForestTrainer trainer_OLD = multi_regression_trainer(data.get_num_outcomes());
+  Forest forest_OLD = trainer_OLD.train(data, options);
+  std::vector<Prediction> predictions_OLD;
   if (compute_oob_predictions) {
-    ForestPredictor predictor = multi_regression_predictor(num_threads, data.get_num_outcomes());
-    predictions = predictor.predict_oob(forest, data, false);
+    ForestPredictor predictor_OLD = multi_regression_predictor(num_threads, data.get_num_outcomes());
+    predictions_OLD = predictor_OLD.predict_oob(forest_OLD, data, false);
   }
 
-  return RcppUtilities::create_forest_object(forest, predictions);
+  Rcpp::Rcout << "SubspaceForestBindings: Returning trained multi_regression_forest (and optionally, OOB predictions)\n";
+  return RcppUtilities::create_forest_object(forest_OLD, predictions_OLD);
 }
 
 // [[Rcpp::export]]
@@ -77,6 +103,9 @@ Rcpp::List subspace_forest_predict(const Rcpp::List& forest_object,
                                    const Rcpp::NumericMatrix& test_matrix,
                                    size_t num_outcomes,
                                    unsigned int num_threads) {
+  // TODO laserf implementation
+  // TODO laserf implementation
+  // TODO laserf implementation
   Data train_data = RcppUtilities::convert_data(train_matrix);
 
   Data data = RcppUtilities::convert_data(test_matrix);
@@ -93,6 +122,9 @@ Rcpp::List subspace_forest_predict_oob(const Rcpp::List& forest_object,
                                        const Rcpp::NumericMatrix& train_matrix,
                                        size_t num_outcomes,
                                        unsigned int num_threads) {
+  // TODO laserf implementation
+  // TODO laserf implementation
+  // TODO laserf implementation
   Data data = RcppUtilities::convert_data(train_matrix);
 
   Forest forest = RcppUtilities::deserialize_forest(forest_object);

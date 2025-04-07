@@ -6,15 +6,15 @@
 #'  * How do deal with `NA` data?
 #'  * Clean up validation of primary covariates `Y` (n by p dimensional).
 #'  * Clean up validation of auxiliary covariates `X` (n by d dimension).
-#'  * `target.rank` (rank r). Would be nice for this to be optional like in `prcomp` and `princomp`.
-#'  * `target.rank` (rank r). Can we allow the option to tune r similar to the ridge penalty parameter in `grf::ll_regression_forest`?
+#'  * `split.rank` (rank r). Would be nice for this to be optional like in `prcomp` and `princomp`.
+#'  * `split.rank` (rank r). Can we allow the option to tune r similar to the ridge penalty parameter in `grf::ll_regression_forest`?
 #'  * `subspace_forest_train` C++ implementation
 #'  * predict.subspace_forest S3 method (via `subspace_forest_predict` and `subspace_forest_predict_oob`)
 #' 
 #' 
 #' @param X TODO... auxiliary covariates (n by d)
 #' @param Y TODO... primary covariates (n by p)
-#' @param target.rank TODO... target subspace dimension (rank r) 
+#' @param split.rank TODO... target subspace dimension during splitting (rank r) 
 #' @param num.trees TODO...
 #' @param sample.weights TODO...
 #' @param clusters TODO...
@@ -38,7 +38,7 @@
 #' }
 #'
 #' @export
-laserf <- function(X, Y, target.rank,  
+laserf <- function(X, Y, split.rank,  
                    num.trees = 2000, # TODO: HIGH PRIORITY
                    sample.weights = NULL,
                    clusters = NULL,
@@ -55,17 +55,17 @@ laserf <- function(X, Y, target.rank,
                    num.threads = NULL,
                    seed = runif(1, 0, .Machine$integer.max),
                    .env = NULL) {
-  has.missing.values <- validate_X(X, allow.na = FALSE) # TODO: TRUE or FALSE?
-  validate_sample_weights(sample.weights, X)            # TODO: How to think about weights and clusters
-  Y <- validate_observations(Y, X, allow.matrix = TRUE) # TODO: The Y data must be a matrix (n-by-p)
+  has.missing.values <- validate_X(X, allow.na = FALSE) # TODO `allow.na` TRUE or FALSE?
+  validate_sample_weights(sample.weights, X)            # TODO Do we need to do anything special for weights and clusters?
+  Y <- validate_observations(Y, X, allow.matrix = TRUE) # TODO Verify that the primary covariates Y are a matrix (n-by-p)
   clusters <- validate_clusters(clusters, X)
   samples.per.cluster <- validate_equalize_cluster_weights(equalize.cluster.weights, clusters, sample.weights)
   num.threads <- validate_num_threads(num.threads)
   
-  target.rank <- validate_target_rank(target.rank)
+  split.rank <- validate_rank(split.rank) # TODO Verify that split.rank <= ncol(Y) (subspace/target dim r <= ambient dim p)
   
   data <- create_train_matrices(X, outcome = Y, sample.weights = sample.weights)
-  args <- list(target.rank = target.rank,
+  args <- list(split.rank = split.rank,
                num.trees = num.trees,
                clusters = clusters,
                samples.per.cluster = samples.per.cluster,
@@ -92,13 +92,11 @@ laserf <- function(X, Y, target.rank,
   forest[["clusters"]] <- clusters
   forest[["equalize.cluster.weights"]] <- equalize.cluster.weights
   forest[["has.missing.values"]] <- has.missing.values
-  forest[["target.rank"]] <- target.rank
+  forest[["split.rank"]] <- split.rank
   
-  
-  # TODO
-  # TODO For debugging during development
-  # TODO
   if (is.environment(.env)) {
+    # TODO Drop this in the final version
+    message("DEVELOPMENT: `laserf` args, data, and forest saved in user-supplied environment.")
     .env$args <- args
     .env$data <- data
     .env$forest <- forest
