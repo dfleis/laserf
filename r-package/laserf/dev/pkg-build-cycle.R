@@ -8,6 +8,7 @@ library(devtools)
 library(usethis)
 # library(testthat)
 library(bench)
+
 rm(list = ls()); gc()
 
 #----- (Optional) Update version numbering in DESCRIPTION

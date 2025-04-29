@@ -16,7 +16,6 @@
  You should have received a copy of the GNU General Public License
  along with grf. If not, see <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------*/
-
 #ifndef GRF_SUBSPACERELABELINGSTRATEGY_H
 #define GRF_SUBSPACERELABELINGSTRATEGY_H
  
@@ -30,8 +29,7 @@ namespace grf {
 
 class SubspaceRelabelingStrategy final: public RelabelingStrategy {
 public:
-  SubspaceRelabelingStrategy(size_t num_outcomes, 
-                             size_t split_rank,
+  SubspaceRelabelingStrategy(size_t split_rank,
                              size_t response_length);
   bool relabel(
       const std::vector<size_t>& samples,
@@ -41,9 +39,8 @@ public:
   size_t get_response_length() const;
     
 private:
-  size_t num_outcomes; // input dimensionality p
-  size_t split_rank;   // target subspace dimensional/rank r
-  size_t response_length; // projection matrix dimensionality p * p (can we reduce pseudo-outcome dimension to p-by-r?)
+  size_t split_rank;      // Target subspace dimension/rank r
+  size_t response_length; // Pseudo-response dimension
  };
  
 } // namespace grf

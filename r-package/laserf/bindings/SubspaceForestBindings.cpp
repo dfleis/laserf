@@ -61,16 +61,16 @@ Rcpp::List subspace_forest_train(const Rcpp::NumericMatrix& train_matrix,
   // NEW
   // TODO Subspace forest pipeline 
   // TODO Complete
-  Rcpp::Rcout << "SubspaceForestBindings: Initializing `ForestTrainer trainer = subspace_trainer(...)`\n";
+  Rcpp::Rcout << "\t1) SubspaceForestBindings: Initializing `ForestTrainer trainer = subspace_trainer(...)`\n";
   ForestTrainer trainer = subspace_trainer(data.get_num_outcomes(), split_rank);
-  Rcpp::Rcout << "SubspaceForestBindings: Successfully initialized `trainer`\n";
+  Rcpp::Rcout << "\t2) SubspaceForestBindings: Successfully initialized `trainer`\n";
   
   // Rcpp::Function sys_sleep("Sys.sleep");
   // Rcpp::Rcout << "Sleep 1\n";
   // sys_sleep(1);
-  Rcpp::Rcout << "SubspaceForestBindings: Training `Forest forest = trainer.train(...)`\n";
+  Rcpp::Rcout << "\t3) SubspaceForestBindings: Training `Forest forest = trainer.train(...)`\n";
   Forest forest = trainer.train(data, options);
-  Rcpp::Rcout << "SubspaceForestBindings: Successfully trained `forest`\n";
+  Rcpp::Rcout << "\t4) SubspaceForestBindings: Successfully trained `forest`\n";
   // std::vector<Prediction> predictions;
   // if (compute_oob_predictions) {
   //   ForestPredictor predictor = multi_regression_predictor(num_threads, data.get_num_outcomes());
