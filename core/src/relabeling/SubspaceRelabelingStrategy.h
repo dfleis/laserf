@@ -29,7 +29,8 @@ namespace grf {
 
 class SubspaceRelabelingStrategy final: public RelabelingStrategy {
 public:
-  SubspaceRelabelingStrategy(size_t split_rank,
+  SubspaceRelabelingStrategy(size_t num_features,
+                             size_t split_rank,
                              size_t response_length);
   bool relabel(
       const std::vector<size_t>& samples,
@@ -39,8 +40,9 @@ public:
   size_t get_response_length() const;
     
 private:
+  size_t num_features;    // Input feature space dimension d
   size_t split_rank;      // Target subspace dimension/rank r
-  size_t response_length; // Pseudo-response dimension
+  size_t response_length; // Pseudo-response dimension d * r
  };
  
 } // namespace grf

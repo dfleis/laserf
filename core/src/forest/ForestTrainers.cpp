@@ -66,11 +66,11 @@ ForestTrainer multi_regression_trainer(size_t num_outcomes) {
                        std::move(prediction_strategy));
 }
 
-ForestTrainer subspace_trainer(size_t num_outcomes, 
+ForestTrainer subspace_trainer(size_t num_features, 
                                size_t split_rank) {
-  size_t response_length = num_outcomes * split_rank; // Pseudo-response dimension
+  size_t response_length = num_features * split_rank; // Pseudo-response dimension
   
-  std::unique_ptr<RelabelingStrategy> relabeling_strategy(new SubspaceRelabelingStrategy(split_rank, response_length));
+  std::unique_ptr<RelabelingStrategy> relabeling_strategy(new SubspaceRelabelingStrategy(num_features, split_rank, response_length));
   std::unique_ptr<SplittingRuleFactory> splitting_rule_factory(new MultiRegressionSplittingRuleFactory(response_length));
   
   return ForestTrainer(std::move(relabeling_strategy),

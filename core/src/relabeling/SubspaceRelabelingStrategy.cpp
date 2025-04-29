@@ -21,8 +21,10 @@
  
 namespace grf {
 
-SubspaceRelabelingStrategy::SubspaceRelabelingStrategy(size_t split_rank,
+SubspaceRelabelingStrategy::SubspaceRelabelingStrategy(size_t num_features,
+                                                       size_t split_rank,
                                                        size_t response_length) :
+  num_features(num_features),
   split_rank(split_rank),
   response_length(response_length) {}
 
@@ -32,7 +34,7 @@ bool SubspaceRelabelingStrategy::relabel(
     Eigen::ArrayXXd& responses_by_sample) const {
 
       size_t num_samples = samples.size(); // n_P (parent samples)
-      size_t num_features = data.get_num_outcomes(); // d
+      //size_t num_features = data.get_num_outcomes(); // d
       
       // TODO
       // TODO Verify that we want to do this? 
@@ -122,6 +124,7 @@ bool SubspaceRelabelingStrategy::relabel(
         e = Y_centered.row(i) - z * V.transpose(); 
         
         for (size_t k = 0; k < split_rank; ++k) {
+          
          /**
           * For a matrix M, the function call M.block(i, j, p, q) selects the submatrix of M
           * according to
@@ -130,6 +133,7 @@ bool SubspaceRelabelingStrategy::relabel(
           *   p: Number of rows to select, starting from the i-th row (inclusive).
           *   q: Number of columns to select, starting from the j-th column (inclusive).
           */
+          //responses_by_sample.block(sample, k * num_features, 1, num_features) = Eigen::RowVectorXd::Random(num_features);
           responses_by_sample.block(sample, k * num_features, 1, num_features) = z(k) * e;
         }
       }
