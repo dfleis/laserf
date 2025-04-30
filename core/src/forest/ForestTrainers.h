@@ -33,7 +33,7 @@ ForestTrainer regression_trainer();
 
 ForestTrainer multi_regression_trainer(size_t num_outcomes);
 
-ForestTrainer subspace_trainer(size_t num_outcomes, 
+ForestTrainer subspace_trainer(size_t num_features, 
                                size_t split_rank);
 
 } // namespace grf

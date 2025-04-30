@@ -20,7 +20,7 @@ laserf(
   honesty.prune.leaves = TRUE,
   alpha = 0.05,
   imbalance.penalty = 0,
-  compute.oob.predictions = TRUE,
+  compute.oob.predictions = FALSE,
   num.threads = NULL,
   seed = runif(1, 0, .Machine$integer.max),
   .env = NULL
@@ -66,6 +66,9 @@ laserf(
 \item{.env}{Environment. Used during development as a container to help with debugging.}
 }
 \description{
+Fit a subspace forest
+}
+\details{
 TODO:
 \itemize{
 \item Which input parameters are still relevant?

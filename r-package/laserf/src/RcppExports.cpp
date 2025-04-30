@@ -277,31 +277,33 @@ BEGIN_RCPP
 END_RCPP
 }
 // subspace_forest_predict
-Rcpp::List subspace_forest_predict(const Rcpp::List& forest_object, const Rcpp::NumericMatrix& train_matrix, const Rcpp::NumericMatrix& test_matrix, size_t num_outcomes, unsigned int num_threads);
-RcppExport SEXP _laserf_subspace_forest_predict(SEXP forest_objectSEXP, SEXP train_matrixSEXP, SEXP test_matrixSEXP, SEXP num_outcomesSEXP, SEXP num_threadsSEXP) {
+Rcpp::List subspace_forest_predict(const Rcpp::List& forest_object, const Rcpp::NumericMatrix& train_matrix, const std::vector<size_t>& outcome_index, const Rcpp::NumericMatrix& test_matrix, size_t rank, unsigned int num_threads);
+RcppExport SEXP _laserf_subspace_forest_predict(SEXP forest_objectSEXP, SEXP train_matrixSEXP, SEXP outcome_indexSEXP, SEXP test_matrixSEXP, SEXP rankSEXP, SEXP num_threadsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const Rcpp::List& >::type forest_object(forest_objectSEXP);
     Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type train_matrix(train_matrixSEXP);
+    Rcpp::traits::input_parameter< const std::vector<size_t>& >::type outcome_index(outcome_indexSEXP);
     Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type test_matrix(test_matrixSEXP);
-    Rcpp::traits::input_parameter< size_t >::type num_outcomes(num_outcomesSEXP);
+    Rcpp::traits::input_parameter< size_t >::type rank(rankSEXP);
     Rcpp::traits::input_parameter< unsigned int >::type num_threads(num_threadsSEXP);
-    rcpp_result_gen = Rcpp::wrap(subspace_forest_predict(forest_object, train_matrix, test_matrix, num_outcomes, num_threads));
+    rcpp_result_gen = Rcpp::wrap(subspace_forest_predict(forest_object, train_matrix, outcome_index, test_matrix, rank, num_threads));
     return rcpp_result_gen;
 END_RCPP
 }
 // subspace_forest_predict_oob
-Rcpp::List subspace_forest_predict_oob(const Rcpp::List& forest_object, const Rcpp::NumericMatrix& train_matrix, size_t num_outcomes, unsigned int num_threads);
-RcppExport SEXP _laserf_subspace_forest_predict_oob(SEXP forest_objectSEXP, SEXP train_matrixSEXP, SEXP num_outcomesSEXP, SEXP num_threadsSEXP) {
+Rcpp::List subspace_forest_predict_oob(const Rcpp::List& forest_object, const Rcpp::NumericMatrix& train_matrix, const std::vector<size_t>& outcome_index, size_t rank, unsigned int num_threads);
+RcppExport SEXP _laserf_subspace_forest_predict_oob(SEXP forest_objectSEXP, SEXP train_matrixSEXP, SEXP outcome_indexSEXP, SEXP rankSEXP, SEXP num_threadsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const Rcpp::List& >::type forest_object(forest_objectSEXP);
     Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type train_matrix(train_matrixSEXP);
-    Rcpp::traits::input_parameter< size_t >::type num_outcomes(num_outcomesSEXP);
+    Rcpp::traits::input_parameter< const std::vector<size_t>& >::type outcome_index(outcome_indexSEXP);
+    Rcpp::traits::input_parameter< size_t >::type rank(rankSEXP);
     Rcpp::traits::input_parameter< unsigned int >::type num_threads(num_threadsSEXP);
-    rcpp_result_gen = Rcpp::wrap(subspace_forest_predict_oob(forest_object, train_matrix, num_outcomes, num_threads));
+    rcpp_result_gen = Rcpp::wrap(subspace_forest_predict_oob(forest_object, train_matrix, outcome_index, rank, num_threads));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -321,8 +323,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_laserf_regression_predict", (DL_FUNC) &_laserf_regression_predict, 6},
     {"_laserf_regression_predict_oob", (DL_FUNC) &_laserf_regression_predict_oob, 5},
     {"_laserf_subspace_forest_train", (DL_FUNC) &_laserf_subspace_forest_train, 20},
-    {"_laserf_subspace_forest_predict", (DL_FUNC) &_laserf_subspace_forest_predict, 5},
-    {"_laserf_subspace_forest_predict_oob", (DL_FUNC) &_laserf_subspace_forest_predict_oob, 4},
+    {"_laserf_subspace_forest_predict", (DL_FUNC) &_laserf_subspace_forest_predict, 6},
+    {"_laserf_subspace_forest_predict_oob", (DL_FUNC) &_laserf_subspace_forest_predict_oob, 5},
     {NULL, NULL, 0}
 };
 

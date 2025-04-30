@@ -46,8 +46,8 @@ bool SubspaceRelabelingStrategy::relabel(
       }
     
       // Step 1a: Calculate the sample statistics needed to center and rescale/normalize Y.
-      Eigen::MatrixXd Y_centered = Eigen::MatrixXd(num_samples, num_features);
-      Eigen::VectorXd weights = Eigen::VectorXd(num_samples); // observational weights (via optional `sample.weights`)
+      Eigen::MatrixXd Y_centered(num_samples, num_features);
+      Eigen::VectorXd weights(num_samples); // observational weights (via optional `sample.weights`)
       Eigen::RowVectorXd Y_mean = Eigen::RowVectorXd::Zero(num_features);
       double sum_weight = 0.0;
       for (size_t i = 0; i < num_samples; ++i) {
@@ -66,7 +66,7 @@ bool SubspaceRelabelingStrategy::relabel(
       Y_mean /= sum_weight;
       
       // Step 1b: Rescale/normalize the observations of Y by sqrt(weights(i)/sum_weights).
-      // When sample weights are left as the default, this is equivalent to 1/sqrt(n).
+      // When sample weights are left as the default, this is equivalent to sqrt(1.0/n).
       for (size_t i = 0; i < num_samples; ++i) {
         double scale_factor = std::sqrt(weights(i) / sum_weight);
         Y_centered.row(i) = scale_factor * (Y_centered.row(i) - Y_mean);
@@ -99,7 +99,6 @@ bool SubspaceRelabelingStrategy::relabel(
         // For n >= d, directly compute covariance matrix.
         Eigen::MatrixXd covariance = Y_centered.transpose() * Y_centered;
         eigen_solver.compute(covariance, Eigen::ComputeEigenvectors);
-      
         eigenvalues = eigen_solver.eigenvalues().tail(split_rank);
         V = eigen_solver.eigenvectors().rightCols(split_rank);
       }
@@ -133,7 +132,6 @@ bool SubspaceRelabelingStrategy::relabel(
           *   p: Number of rows to select, starting from the i-th row (inclusive).
           *   q: Number of columns to select, starting from the j-th column (inclusive).
           */
-          //responses_by_sample.block(sample, k * num_features, 1, num_features) = Eigen::RowVectorXd::Random(num_features);
           responses_by_sample.block(sample, k * num_features, 1, num_features) = z(k) * e;
         }
       }

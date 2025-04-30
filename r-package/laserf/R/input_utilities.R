@@ -1,34 +1,41 @@
-validate_X <- function(X, allow.na = FALSE) {
+validate_matrix <- function(mat, label, allow.na = FALSE) {
   valid.classes <- c("matrix", "data.frame")
-
-  if (!inherits(X, valid.classes)) {
-    stop(paste(
-      "Currently the only supported data input types are:",
-      "`matrix`, `data.frame`"
-    ))
+  
+  if (!inherits(mat, valid.classes)) {
+    stop(sprintf(
+      "The only supported data types for `%s` are %s.",
+      label, paste0(shQuote(valid.classes), collapse = ", "))
+    )
   }
-  if (any(0 %in% dim(X))) {
-    stop("Feature matrix X must have non-zero dimensions.")
+  
+  if (any(0 %in% dim(mat))) {
+    stop(sprintf("Matrix `%s` must have non-zero dimensions.", label))
   }
-
-  if (!is.numeric(as.matrix(X))) {
-    stop(paste(
-      "The feature matrix X must be numeric. LASERF does not",
-      "currently support non-numeric features. If factor variables",
-      "are required, we recommend one of the following: Either",
-      "represent the factor with a 1-vs-all expansion,",
-      "(e.g., using model.matrix(~. , data=X)), or then encode the factor",
-      "as a numeric via any natural ordering (e.g., if the factor is a month)."
-    ))
+  
+  if (!is.numeric(as.matrix(mat))) {
+    stop(sprintf("Matrix `%s` must be numeric.", label),
+         "\n  LASERF does not currently support non-numeric features.",
+         " If factor variables are required, we recommend one of the following:",
+         " Either represent the factor with a 1-vs-all expansion,",
+         " (e.g., using `base::model.matrix`), or then encode the factor",
+         " as a numeric via any natural ordering (e.g., if the factor is a month)."
+    )
   }
-
-  has.missing.values <- anyNA(X)
-
+  
+  has.missing.values <- anyNA(mat)
+  
   if (!allow.na && has.missing.values) {
-    stop("The feature matrix X contains at least one NA.")
+    stop(sprintf("Matrix `%s` contains at least one NA value.", label))
   }
-
+  
   has.missing.values
+}
+
+validate_X <- function(X, allow.na = FALSE) {
+  validate_matrix(mat = X, label = "X", allow.na = allow.na)
+}
+validate_Y <- function(Y, allow.na = FALSE) {
+  validate_matrix(mat = Y, label = "Y", allow.na = allow.na)
 }
 
 validate_observations <- function(V, X, allow.matrix = FALSE) {
@@ -117,6 +124,19 @@ validate_newdata <- function(newdata, X, allow.na = FALSE) {
   }
 }
 
+validate_newX <- function(newX, X, allow.na = FALSE) {
+  validate_X(newX, allow.na = allow.na)
+  if (ncol(newX) != ncol(X)) {
+    stop("`newX` must have the same number of columns as the training `X` matrix.")
+  }
+}
+validate_newY <- function(newY, Y, allow.na = FALSE) {
+  validate_Y(newY, allow.na = allow.na)
+  if (ncol(newY) != ncol(Y)) {
+    stop("`newY` must have the same number of columns as the training `Y` matrix.")
+  }
+}
+
 validate_sample_weights <- function(sample.weights, X) {
   if (!is.null(sample.weights)) {
     if (length(sample.weights) != nrow(X)) {
@@ -128,11 +148,13 @@ validate_sample_weights <- function(sample.weights, X) {
   }
 }
 
-validate_rank <- function(r) {
+validate_rank <- function(r, num.features) {
   if (!isTRUE(r >= 1)) { # using isTRUE handles cases like NULL, NA, NA_real_
-    stop("Subspace rank must be a positive integer >= 1.")
+    stop("Target subspace dimension must be a positive integer >= 1.")
   } else if (isFALSE(is.numeric(r)) || length(r) != 1) {
-    stop("Subspace rank must be a positive integer.")
+    stop("Target subspace dimension must be a positive integer.")
+  } else if (!isTRUE(r <= num.features)) {
+    stop("Target subspace dimension but be smaller than the input feature space dimension.")
   }
   as.integer(r) # rounds down (up to a precision of .Machine$double.eps)
 }

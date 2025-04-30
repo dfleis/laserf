@@ -57,11 +57,11 @@ subspace_forest_train <- function(train_matrix, outcome_index, split_rank, sampl
     .Call('_laserf_subspace_forest_train', PACKAGE = 'laserf', train_matrix, outcome_index, split_rank, sample_weight_index, use_sample_weights, mtry, num_trees, min_node_size, sample_fraction, honesty, honesty_fraction, honesty_prune_leaves, alpha, imbalance_penalty, clusters, samples_per_cluster, compute_oob_predictions, num_threads, seed, legacy_seed)
 }
 
-subspace_forest_predict <- function(forest_object, train_matrix, test_matrix, num_outcomes, num_threads) {
-    .Call('_laserf_subspace_forest_predict', PACKAGE = 'laserf', forest_object, train_matrix, test_matrix, num_outcomes, num_threads)
+subspace_forest_predict <- function(forest_object, train_matrix, outcome_index, test_matrix, rank, num_threads) {
+    .Call('_laserf_subspace_forest_predict', PACKAGE = 'laserf', forest_object, train_matrix, outcome_index, test_matrix, rank, num_threads)
 }
 
-subspace_forest_predict_oob <- function(forest_object, train_matrix, num_outcomes, num_threads) {
-    .Call('_laserf_subspace_forest_predict_oob', PACKAGE = 'laserf', forest_object, train_matrix, num_outcomes, num_threads)
+subspace_forest_predict_oob <- function(forest_object, train_matrix, outcome_index, rank, num_threads) {
+    .Call('_laserf_subspace_forest_predict_oob', PACKAGE = 'laserf', forest_object, train_matrix, outcome_index, rank, num_threads)
 }
 
