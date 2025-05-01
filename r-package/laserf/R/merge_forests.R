@@ -1,7 +1,7 @@
 #' Merges a list of forests that were grown using the same data into one large forest.
 #'
 #' @param forest_list A `list` of forests to be concatenated.
-#'                        All forests must be of the same type, and the type must be a subclass of `grf`.
+#'                        All forests must be of the same type, and the type must be a subclass of `laserf`.
 #'                        In addition, all forests must have the same 'ci.group.size'.
 #'                        Other tuning parameters (e.g. alpha, mtry, min.node.size, imbalance.penalty) are
 #'                        allowed to differ across forests.
@@ -15,16 +15,7 @@
 #'
 #' @examples
 #' \donttest{
-#' # Train standard regression forests
-#' n <- 50
-#' p <- 10
-#' X <- matrix(rnorm(n * p), n, p)
-#' Y <- X[, 1] * rnorm(n)
-#' r.forest1 <- regression_forest(X, Y, compute.oob.predictions = FALSE, num.trees = 100)
-#' r.forest2 <- regression_forest(X, Y, compute.oob.predictions = FALSE, num.trees = 100)
-#'
-#' # Join the forests together. The resulting forest will contain 200 trees.
-#' big_rf <- merge_forests(list(r.forest1, r.forest2))
+#' # TODO see documentation for `grf::merge_forests`
 #' }
 #'
 #' @export
@@ -61,8 +52,8 @@ validate_forest_list <- function(forest_list) {
   }
 
   first_forest <- forest_list[[1]]
-  if (!methods::is(first_forest, "grf")) {
-    stop("Argument 'forest_list' must be a list of grf objects.
+  if (!methods::is(first_forest, "laserf")) {
+    stop("Argument 'forest_list' must be a list of laserf objects.
            Be sure to use 'list(forest1, forest2), not 'c(forest1, forest2)'.")
   }
 

@@ -22,16 +22,16 @@ rm(list = ls()); gc()
 # devtools::uninstall(unload = T) # Combines unloading and removal (dev-friendly version of remove.packages)
 
 #----- Development cycle
-devtools::load_all() # Load the current version (and checks to recompile)
+tm_load <- bench::system_time(devtools::load_all()) # Load the current version (and checks to recompile)
 # devtools::load_all(compile = FALSE) 
-devtools::document() # Update documentation
+tm_doc <- bench::system_time(devtools::document()) # Update documentation
 # devtools::test()   # Run testthat tests
 
 #----- Build cycle
-devtools::check() # Catch errors before build
+tm_check <- bench::system_time(devtools::check()) # Catch errors before build
 
 devtools::clean_dll()
-devtools::build()
+tm_build <- bench::system_time(devtools::build())
 
 # devtools::install() # If we want to test an actual installation
 

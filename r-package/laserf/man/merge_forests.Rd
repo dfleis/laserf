@@ -8,7 +8,7 @@ merge_forests(forest_list, compute.oob.predictions = TRUE)
 }
 \arguments{
 \item{forest_list}{A \code{list} of forests to be concatenated.
-All forests must be of the same type, and the type must be a subclass of \code{grf}.
+All forests must be of the same type, and the type must be a subclass of \code{laserf}.
 In addition, all forests must have the same 'ci.group.size'.
 Other tuning parameters (e.g. alpha, mtry, min.node.size, imbalance.penalty) are
 allowed to differ across forests.}
@@ -26,16 +26,7 @@ Merges a list of forests that were grown using the same data into one large fore
 }
 \examples{
 \donttest{
-# Train standard regression forests
-n <- 50
-p <- 10
-X <- matrix(rnorm(n * p), n, p)
-Y <- X[, 1] * rnorm(n)
-r.forest1 <- regression_forest(X, Y, compute.oob.predictions = FALSE, num.trees = 100)
-r.forest2 <- regression_forest(X, Y, compute.oob.predictions = FALSE, num.trees = 100)
-
-# Join the forests together. The resulting forest will contain 200 trees.
-big_rf <- merge_forests(list(r.forest1, r.forest2))
+# TODO see documentation for `grf::merge_forests`
 }
 
 }

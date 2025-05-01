@@ -24,15 +24,6 @@
 
 namespace grf {
 
-ForestTrainer multi_causal_trainer(size_t num_treatments,
-                                   size_t num_outcomes,
-                                   bool stabilize_splits,
-                                   const std::vector<double>& gradient_weights = {});
-
-ForestTrainer regression_trainer();
-
-ForestTrainer multi_regression_trainer(size_t num_outcomes);
-
 ForestTrainer subspace_trainer(size_t num_features, 
                                size_t split_rank);
 

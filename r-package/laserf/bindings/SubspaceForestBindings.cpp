@@ -68,21 +68,6 @@ Rcpp::List subspace_forest_train(const Rcpp::NumericMatrix& train_matrix,
     predictions = predictor.predict_oob(forest, data, false);
   }
   return RcppUtilities::create_forest_object(forest, predictions);
-  
-  // OLD (multi_regression_trainer used as a template)
-  // TODO Multivariate response regression forest pipeline
-  // TODO Remove
-  // Rcpp::Rcout << "SubspaceForestBindings: Running `multi_regression_forest` pipeline (TODO Remove)\n";
-  // ForestTrainer trainer_OLD = multi_regression_trainer(data.get_num_outcomes());
-  // Forest forest_OLD = trainer_OLD.train(data, options);
-  // std::vector<Prediction> predictions_OLD;
-  // if (compute_oob_predictions) {
-  //   ForestPredictor predictor_OLD = multi_regression_predictor(num_threads, data.get_num_outcomes());
-  //   predictions_OLD = predictor_OLD.predict_oob(forest_OLD, data, false);
-  // }
-  // 
-  // Rcpp::Rcout << "SubspaceForestBindings: Returning trained multi_regression_forest (and optionally, OOB predictions)\n";
-  // return RcppUtilities::create_forest_object(forest_OLD, predictions_OLD);
 }
 
 // [[Rcpp::export]]
@@ -124,6 +109,5 @@ Rcpp::List subspace_forest_predict_oob(const Rcpp::List& forest_object,
   ForestPredictor predictor = subspace_predictor(num_threads, num_features, rank);
   std::vector<Prediction> predictions = predictor.predict_oob(forest, data, estimate_variance);
 
-  Rcpp::List result = RcppUtilities::create_prediction_object(predictions);
-  return result;
+  return RcppUtilities::create_prediction_object(predictions);
 }
