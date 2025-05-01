@@ -276,14 +276,14 @@ make_laserf_preds <- function(preds.raw,
       pred = preds.raw[i,], 
       y = if (!is.null(Y)) Y[i,] else NULL
     )
-  }, USE.NAMES = T)
+  })
   
   list(
-    "eigenvectors"  = out["eigvecs",],
-    "eigenvalues"   = t(simplify2array(out["eigvals",], except = 0L)),
-    "feature.means" = t(simplify2array(out["y.means",])),
-    "scores"        = if (compute.scores) t(simplify2array(out["z.scores",], except = 0L)) else NULL,
-    "projections"   = if (compute.projections) t(simplify2array(out["y.proj",])) else NULL
+    "eigenvectors"  = unname(out["eigvecs",]),
+    "eigenvalues"   = unname(t(simplify2array(out["eigvals",], except = 0L))),
+    "feature.means" = unname(t(simplify2array(out["y.means",]))),
+    "scores"        = if (compute.scores) unname(t(simplify2array(out["z.scores",], except = 0L))) else NULL,
+    "projections"   = if (compute.projections) unname(t(simplify2array(out["y.proj",]))) else NULL
   )
 }
 
