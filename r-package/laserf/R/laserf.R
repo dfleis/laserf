@@ -140,8 +140,8 @@ predict.laserf <- function(object,
                            num.threads = NULL,
                            ...) {
   num.threads <- validate_num_threads(num.threads)
-  if (is.null(rank)) rank <- object[["split.rank"]]
   num.features <- NCOL(object[["Y.orig"]])
+  if (is.null(rank)) rank <- object[["split.rank"]]
   rank <- validate_rank(r = rank, num.features = num.features)
   
   forest.short <- object[-which(names(object) == "X.orig")]
@@ -155,6 +155,7 @@ predict.laserf <- function(object,
   
   compute.oob.preds <- TRUE
   if (!is.null(newX)) {
+    compute.oob.preds <- FALSE
     validate_newX(newX = newX, X = object[["X.orig"]], allow.na = FALSE)
     test.data <- create_test_matrices(newX)
     
@@ -166,17 +167,19 @@ predict.laserf <- function(object,
     }
     
     ret <- do.call.rcpp(subspace_forest_predict, c(train.data, test.data, args))
-    
-    compute.oob.preds <- FALSE
   } else {
+    # Make in-sample OOB predictions
     if (!is.null(newY)) {
       stop(
         "Cannot make predictions at new features `newY` without supplying a corresponding", 
-        " set of auxiliary covariates `newX` such that each new y is associated with a new x.")
+        " set of auxiliary covariates `newX` such that each new y is associated with a new x.",
+        "\n  If you wish to make in-sample predictions over the training set (X, Y), then there",
+        " is no need to supply values for `newX` or `newY` because the the training set",
+        " is already contained by the passed forest object."
+      )
     } 
     
     ret <- do.call.rcpp(subspace_forest_predict_oob, c(train.data, args))
-    compute.oob.preds <- TRUE
   }
 
   make_laserf_preds(
@@ -192,11 +195,12 @@ predict.laserf <- function(object,
 #' Form the subspace forest predictions given the raw predictions returned by C++
 #' 
 #' Parse and partition the raw prediction vectors returned by C++. Reform the local
-#' eigenvector matrix (principal components), alongside separate data structures
+#' eigenvector matrix (principal directions), alongside separate data structures
 #' for the local eigenvalues (variances) and the local feature-space means. 
 #' 
 #' When new testing features `Y` are supplied, can also compute the predicted score
-#' and projection vectors given `Y` at the fitted local eigenvectors and means.
+#' (local principal components) and projection vectors given `Y` at the fitted local
+#' eigenvectors and means.
 #' 
 #' @param preds.raw TODO...
 #' @param num.features TODO... dimension of Y input feature space

@@ -24,12 +24,6 @@
 
 namespace grf {
 
-ForestPredictor multi_causal_predictor(uint num_threads, size_t num_treatments, size_t num_outcomes);
-
-ForestPredictor regression_predictor(uint num_threads);
-
-ForestPredictor multi_regression_predictor(uint num_threads, size_t num_outcomes);
-
 ForestPredictor subspace_predictor(uint num_threads, size_t num_features, size_t rank);
 
 } // namespace grf

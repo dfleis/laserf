@@ -33,14 +33,8 @@ bool SubspaceRelabelingStrategy::relabel(
     const Data& data,
     Eigen::ArrayXXd& responses_by_sample) const {
 
-      size_t num_samples = samples.size(); // n_P (parent samples)
-      //size_t num_features = data.get_num_outcomes(); // d
+      size_t num_samples = samples.size(); 
       
-      // TODO
-      // TODO Verify that we want to do this? 
-      // TODO Should it be num_samples <= split_rank or num_features?
-      // TODO
-      // Stop if fewer parent samples than the dimension r of the target subspace
       if (num_samples <= split_rank) { 
         return true; 
       }

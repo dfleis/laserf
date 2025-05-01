@@ -18,30 +18,9 @@
  #-------------------------------------------------------------------------------*/
 
 #include "forest/ForestPredictors.h"
-#include "prediction/MultiCausalPredictionStrategy.h"
-#include "prediction/RegressionPredictionStrategy.h"
-#include "prediction/MultiRegressionPredictionStrategy.h"
 #include "prediction/SubspacePredictionStrategy.h"
 
 namespace grf {
-
-ForestPredictor multi_causal_predictor(uint num_threads, size_t num_treatments, size_t num_outcomes) {
-  num_threads = ForestOptions::validate_num_threads(num_threads);
-  std::unique_ptr<OptimizedPredictionStrategy> prediction_strategy(new MultiCausalPredictionStrategy(num_treatments, num_outcomes));
-  return ForestPredictor(num_threads, std::move(prediction_strategy));
-}
-
-ForestPredictor regression_predictor(uint num_threads) {
-  num_threads = ForestOptions::validate_num_threads(num_threads);
-  std::unique_ptr<OptimizedPredictionStrategy> prediction_strategy(new RegressionPredictionStrategy());
-  return ForestPredictor(num_threads, std::move(prediction_strategy));
-}
-
-ForestPredictor multi_regression_predictor(uint num_threads, size_t num_outcomes) {
-  num_threads = ForestOptions::validate_num_threads(num_threads);
-  std::unique_ptr<OptimizedPredictionStrategy> prediction_strategy(new MultiRegressionPredictionStrategy(num_outcomes));
-  return ForestPredictor(num_threads, std::move(prediction_strategy));
-}
 
 ForestPredictor subspace_predictor(uint num_threads, size_t num_features, size_t rank) {
   num_threads = ForestOptions::validate_num_threads(num_threads);

@@ -31,11 +31,12 @@ TODO...
 }
 \description{
 Parse and partition the raw prediction vectors returned by C++. Reform the local
-eigenvector matrix (principal components), alongside separate data structures
+eigenvector matrix (principal directions), alongside separate data structures
 for the local eigenvalues (variances) and the local feature-space means.
 }
 \details{
 When new testing features \code{Y} are supplied, can also compute the predicted score
-and projection vectors given \code{Y} at the fitted local eigenvectors and means.
+(local principal components) and projection vectors given \code{Y} at the fitted local
+eigenvectors and means.
 }
 \keyword{internal}
