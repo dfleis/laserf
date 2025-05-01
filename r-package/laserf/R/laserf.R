@@ -170,15 +170,16 @@ predict.laserf <- function(object,
     compute.oob.preds <- FALSE
   } else {
     if (!is.null(newY)) {
-      stop("Cannot make predictions at new features `newY` without ",
-           "supplying a corresponding set of auxiliary covariates `newX`.")
+      stop(
+        "Cannot make predictions at new features `newY` without supplying a corresponding", 
+        " set of auxiliary covariates `newX` such that each new y is associated with a new x.")
     } 
     
     ret <- do.call.rcpp(subspace_forest_predict_oob, c(train.data, args))
     compute.oob.preds <- TRUE
   }
 
-  restructure_subspace_predictions(
+  make_laserf_preds(
     preds.raw    = ret$predictions, 
     num.features = num.features,
     rank         = rank,
@@ -188,75 +189,97 @@ predict.laserf <- function(object,
   )
 } 
 
-#' Restructure the vectorized subspace prediction vectors
+#' Form the subspace forest predictions given the raw predictions returned by C++
+#' 
+#' Parse and partition the raw prediction vectors returned by C++. Reform the local
+#' eigenvector matrix (principal components), alongside separate data structures
+#' for the local eigenvalues (variances) and the local feature-space means. 
+#' 
+#' When new testing features `Y` are supplied, can also compute the predicted score
+#' and projection vectors given `Y` at the fitted local eigenvectors and means.
+#' 
 #' @param preds.raw TODO...
 #' @param num.features TODO... dimension of Y input feature space
 #' @param rank TODO... rank
-#' @param Y TODO...
+#' @param Y TODO... Default `NULL`
 #' @param compute.scores TODO... low-dimensional representations... Ignored if `compute.projections = TRUE`
 #' @param compute.projections TODO... projections
 #' @return TODO...
 #' @keywords internal
-restructure_subspace_predictions <- function(preds.raw, 
-                                             num.features,
-                                             rank,
-                                             Y = NULL,
-                                             compute.scores = FALSE,
-                                             compute.projections = FALSE) {
-  V.size <- rank * num.features
-  idx.eigvecs <- 1:V.size
-  idx.eigvals <- (V.size + 1):(V.size + rank)
-  idx.means <- (V.size + rank + 1):(V.size + rank + num.features)
+make_laserf_preds <- function(preds.raw, 
+                              num.features,
+                              rank,
+                              Y = NULL,
+                              compute.scores = FALSE,
+                              compute.projections = FALSE) {
+  if (!is.null(Y)) {
+    if (NROW(Y) != NROW(preds.raw)) {
+     stop(
+       "New test features `Y` must have the same number of rows (observations)",
+       " as `preds.raw`."
+     )
+    }
+    
+    if (NCOL(Y) != num.features) {
+      stop(
+        "New test features `Y` must have the same number of columns (features)",
+        " as supplied to `num.features`."
+      )
+    }
+  }
   
-  format_preds <- function(pred, y) {
-    V <- matrix(pred[idx.eigvecs], nrow = num.features, ncol = rank)
+  eigvecs.size <- rank * num.features # Total number of eigenvector coordinates
+  implied.pred.length <- eigvecs.size + rank + num.features
+  if (implied.pred.length != NCOL(preds.raw)) {
+    stop(
+      "The length of the raw prediction vectors implied by arguments `num.features` and `rank`",
+      " (num.features * rank + rank + num.features = ", implied.pred.length, ")", 
+      " must be the same as the number of columns of `preds.raw` (NCOL(preds.raw) = ", 
+      NCOL(preds.raw), ")."
+    )
+  }
+  
+  idx.eigvecs <- 1:eigvecs.size
+  idx.eigvals <- (eigvecs.size + 1):(eigvecs.size + rank)
+  idx.means <- (eigvecs.size + rank + 1):(eigvecs.size + rank + num.features)
+  
+  format_pred <- function(pred, y) {
+    eigvecs <- matrix(pred[idx.eigvecs], nrow = num.features, ncol = rank)
     eigvals <- pred[idx.eigvals]
     y.means <- pred[idx.means]
     
-    z <- if (isTRUE(compute.scores) || isTRUE(compute.projections)) {
-      as.vector(crossprod(V, y - y.means))
-    } else {
-      NULL
-    }
-      
-    y.proj <- if (isTRUE(compute.projections) && !is.null(z)) {
-      y.means + as.vector(V %*% z)
+    z.scores <- if (isTRUE(compute.scores) || isTRUE(compute.projections)) {
+      crossprod(eigvecs, y - y.means)
     } else {
       NULL
     }
     
-    list(V = V, 
-         eigvals = eigvals, 
-         y.means = y.means, 
-         z = z, 
-         y.proj = y.proj)
+    y.proj <- if (isTRUE(compute.projections) && !is.null(z.scores)) {
+      y.means + eigvecs %*% z.scores
+    } else {
+      NULL
+    }
+    
+    list(eigvecs  = eigvecs, 
+         eigvals  = eigvals, 
+         y.means  = y.means, 
+         z.scores = drop(z.scores), 
+         y.proj   = drop(y.proj))
   }
   
   out <- sapply(1:nrow(preds.raw), function(i) {
-    format_preds(
+    format_pred(
       pred = preds.raw[i,], 
       y = if (!is.null(Y)) Y[i,] else NULL
     )
-  })
+  }, USE.NAMES = T)
   
   list(
-    "eigenvectors"  = out["V",],
+    "eigenvectors"  = out["eigvecs",],
     "eigenvalues"   = t(simplify2array(out["eigvals",], except = 0L)),
     "feature.means" = t(simplify2array(out["y.means",])),
-    "scores"        = if (compute.scores) t(simplify2array(out["z",], except = 0L)) else NULL,
+    "scores"        = if (compute.scores) t(simplify2array(out["z.scores",], except = 0L)) else NULL,
     "projections"   = if (compute.projections) t(simplify2array(out["y.proj",])) else NULL
   )
 }
-
-
-
-
-
-
-
-
-
-
-
-
 

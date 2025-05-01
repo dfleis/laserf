@@ -30,7 +30,7 @@ print.laserf <- function(x, decay.exponent = 2, max.depth = 4, ...) {
 #' @method print laserf_tree
 #' @export
 print.laserf_tree <- function(x, ...) {
-  cat("GRF tree object", "\n")
+  cat("LASERF tree object", "\n")
   cat("Number of training samples:", x$num_samples, "\n")
   cat("Variable splits:", "\n")
 
