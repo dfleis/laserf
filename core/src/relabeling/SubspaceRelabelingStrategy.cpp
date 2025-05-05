@@ -35,7 +35,7 @@ bool SubspaceRelabelingStrategy::relabel(
 
       size_t num_samples = samples.size(); 
       
-      if (num_samples <= split_rank) { 
+      if (num_samples < split_rank) { 
         return true; 
       }
     
