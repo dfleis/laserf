@@ -96,7 +96,19 @@ bool SubspaceRelabelingStrategy::relabel(
         eigenvalues = eigen_solver.eigenvalues().tail(split_rank);
         V = eigen_solver.eigenvectors().rightCols(split_rank);
       }
-    
+      
+      double lambda_max = eigenvalues.maxCoeff();
+      double eps        = std::numeric_limits<double>::epsilon();
+      double tol        = std::max(num_features, num_samples) * lambda_max * eps;
+      Eigen::VectorXd inv_eigs(split_rank);
+      for (size_t k = 0; k < split_rank; ++k) {
+        if (eigenvalues(k) > tol) {
+          inv_eigs(k) = 1.0 / eigenvalues(k);
+        } else {
+          inv_eigs(k) = 0.0;  // drop or cap at 1/tol
+        }
+      }
+      
      /**
       * Vectorize d-by-r dimensional matrix pseudo-responses to (rd)-dimensional vectors.
       * Mathematically, if Y_i is d-by-1 and V is d-by-r then 
@@ -126,7 +138,8 @@ bool SubspaceRelabelingStrategy::relabel(
           *   p: Number of rows to select, starting from the i-th row (inclusive).
           *   q: Number of columns to select, starting from the j-th column (inclusive).
           */
-          responses_by_sample.block(sample, k * num_features, 1, num_features) = z(k) * e;
+          double scaled_z = z(k) * inv_eigs(k);
+          responses_by_sample.block(sample, k * num_features, 1, num_features) = scaled_z * e;
         }
       }
       return false;
